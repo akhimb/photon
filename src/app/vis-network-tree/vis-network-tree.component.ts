@@ -23,7 +23,7 @@ export class VisNetworkTreeComponent implements OnInit {
   ngOnInit() {   
     this.graph=graph;
     var treeData = this.getTreeData();
-    this.loadVisTree(treeData);     // RENDER STANDARD NODES WITH TEXT LABEL
+    this.loadVisTree(treeData);     
     this.setNodeEvents();
   }
 
@@ -141,7 +141,7 @@ export class VisNetworkTreeComponent implements OnInit {
       edges: this.edges
     };
 
-    this.loadVisTree(treeData);     // RENDER STANDARD NODES WITH TEXT LABEL
+    this.loadVisTree(treeData);    
     this.setNodeEvents();
   }
 
@@ -223,12 +223,21 @@ export class VisNetworkTreeComponent implements OnInit {
               mod: ''
             }
           },
-            shape: 'circle',
+            shape: 'elipse',
             size: 15
         },
         edges: {
             width: 1,
             color: 'black',
+            label:'true',
+            arrows: {
+              to: {
+                enabled: true
+              },
+              from: {
+                enabled: false
+              }
+            }
         },
         groups: {
             CDR: {
