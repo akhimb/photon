@@ -17,6 +17,7 @@ export class VisNetworkTreeComponent implements OnInit {
   EdgesConnected:any;
   NodesConnected:any;
   IdsConnected:string[]=[];
+  public isChecked=false;
   constructor() { }
 
  
@@ -36,9 +37,17 @@ export class VisNetworkTreeComponent implements OnInit {
 				enabled: true
 			}
     };
-    options = this.getOptions();
+    options = this.getOptions(this.isChecked);
     var container = this.networkContainer.nativeElement;
     this.network = new Network(container, treedata, options);   
+  }
+
+  Checked(values:any)
+  {
+   this.isChecked=values.currentTarget.checked;
+    var treeData = this.getTreeData();
+   this.loadVisTree(treeData);
+
   }
 
   getTreeData() {  
@@ -145,11 +154,13 @@ export class VisNetworkTreeComponent implements OnInit {
     this.setNodeEvents();
   }
 
-  getOptions() {
+  getOptions(view:any) {
 
     
       var options = {
           interaction: {
+            dragNodes: true,
+            dragView: true,
           hover: true,
           keyboard: {
             enabled: true,
@@ -157,7 +168,8 @@ export class VisNetworkTreeComponent implements OnInit {
               x: 10,
               y: 10,
               zoom: 0.02
-            }
+            },
+            bindToWindow: true
           },
         },
         manipulation: {
@@ -170,6 +182,7 @@ export class VisNetworkTreeComponent implements OnInit {
           deleteEdge: true,
         },
         nodes: {
+          physics: false,
           borderWidth: 1,
           borderWidthSelected: 2,
           chosen: true,
@@ -223,7 +236,7 @@ export class VisNetworkTreeComponent implements OnInit {
               mod: ''
             }
           },
-            shape: 'elipse',
+            shape: 'ellipse',
             size: 15
         },
         edges: {
@@ -245,6 +258,23 @@ export class VisNetworkTreeComponent implements OnInit {
                 shape: 'circle'
             }
         },
+          layout: {
+    randomSeed: undefined,
+    improvedLayout:true,
+    clusterThreshold: 150,
+    hierarchical: {
+      enabled:view,
+      levelSeparation: 150,
+      nodeSpacing: 100,
+      treeSpacing: 200,
+      blockShifting: true,
+      edgeMinimization: true,
+      parentCentralization: true,
+      direction: 'UD',        // UD, DU, LR, RL
+      sortMethod: 'hubsize',  // hubsize, directed
+      shakeTowards: 'leaves'  // roots, leaves
+    }
+  }
         
       };
       return options;
