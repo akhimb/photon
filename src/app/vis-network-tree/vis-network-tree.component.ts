@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Network } from 'vis-network/standalone';
 import graph from '../helpers/graph.json';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-vis-network-tree',
   templateUrl: './vis-network-tree.component.html',
@@ -8,7 +9,8 @@ import graph from '../helpers/graph.json';
 })
 export class VisNetworkTreeComponent implements OnInit {
   @ViewChild("siteConfigNetwork", { static: true }) networkContainer: ElementRef;
-
+  @ViewChild('canvas', { static: true }) canvas: ElementRef;
+  @ViewChild('downloadLink', { static: true }) downloadLink: ElementRef;
   public graph:any;
   public network: any;
   public selectedNode: any;
@@ -47,8 +49,19 @@ export class VisNetworkTreeComponent implements OnInit {
    this.isChecked=values.currentTarget.checked;
     var treeData = this.getTreeData();
    this.loadVisTree(treeData);
+   this.setNodeEvents();
 
   }
+
+Capture(values:any)
+{
+  html2canvas(this.networkContainer.nativeElement).then(canvas => {
+    this.canvas.nativeElement.src = canvas.toDataURL();
+    this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+    this.downloadLink.nativeElement.download = 'vis '+new Date().toLocaleTimeString();
+    this.downloadLink.nativeElement.click();
+  });;
+}
 
   getTreeData() {  
     this.nodes =this.graph.nodes.filter((node) => {
@@ -236,8 +249,14 @@ export class VisNetworkTreeComponent implements OnInit {
               mod: ''
             }
           },
-            shape: 'ellipse',
-            size: 15
+          shape: 'icon',
+          icon: {
+            face: "'Font Awesome 5 Free'",
+            weight: "bold", // Font Awesome 5 doesn't work properly unless bold.
+            code: '\uf007',
+            size: 20,
+            color: 'blue'
+          }
         },
         edges: {
             width: 1,
@@ -254,8 +273,24 @@ export class VisNetworkTreeComponent implements OnInit {
         },
         groups: {
             CDR: {
-                color: {background:'red',border:'white'},
-                shape: 'circle'
+              shape: 'icon',
+              icon: {
+                face: "'Font Awesome 5 Free'",
+                weight: "bold", // Font Awesome 5 doesn't work properly unless bold.
+                code: '\uf0c0',
+                size: 25,
+                color: 'red'
+              }
+            },
+            SUSPECT: {
+              shape: 'icon',
+              icon: {
+                face: "'Font Awesome 5 Free'",
+                weight: "bold", // Font Awesome 5 doesn't work properly unless bold.
+                code: '\uf21b',
+                size: 20,
+                color: 'green'
+              }
             }
         },
           layout: {
