@@ -264,7 +264,7 @@ Capture(values:any)
             label:'true',
             arrows: {
               to: {
-                enabled: true
+                enabled: true,
               },
               from: {
                 enabled: false
@@ -279,7 +279,7 @@ Capture(values:any)
                 weight: "bold", // Font Awesome 5 doesn't work properly unless bold.
                 code: '\uf0c0',
                 size: 25,
-                color: 'red'
+                color: '#a3021f'
               }
             },
             SUSPECT: {
