@@ -53,8 +53,11 @@ export class VisNetworkTreeComponent implements OnInit {
 
   }
 
+
 Capture(values:any)
 {
+
+  
   html2canvas(this.networkContainer.nativeElement).then(canvas => {
     this.canvas.nativeElement.src = canvas.toDataURL();
     this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
@@ -81,90 +84,100 @@ Capture(values:any)
   itemDoubleClick(node:any)
   {
     let isExpanded=false;
+    let isCDR=false;
     if (node.group != undefined && node.group.length > 0) {
       if(node.group==="CDR")
-      isExpanded=node.expanded;
+      {
+        isExpanded=node.expanded;
+        isCDR=true;
+      }
+      
     }
 
-    if(!isExpanded)
+    if(isCDR)
     {
-      this.EdgesConnected =this.graph.edges.filter((edge) => {
-        return edge.from ===node.id ;
-      });
-    
+      if(!isExpanded)
+      {
+        this.EdgesConnected =this.graph.edges.filter((edge) => {
+          return edge.from ===node.id ;
+        });
       
-      this.IdsConnected=[];
-      this.EdgesConnected.forEach(element => {
-        this.IdsConnected.push(element.to);
-      });
-  
-      this.NodesConnected=this.graph.nodes.filter((node)=>{
-        return this.IdsConnected.includes(node.id);
-      });
-  
-      //Push those node to current nodes
-      this.NodesConnected.forEach(node => {
-        if(this.nodes.indexOf(node)===-1)
-        this.nodes.push(node);
-      });
-  
-      //push those edges to current edges
-      this.EdgesConnected.forEach(edge => {
-        if(this.edges.indexOf(edge)===-1)
-        this.edges.push(edge);
-      });
-
-     if( this.nodes.indexOf(node)!==-1)
-     {
-       this.nodes[this.nodes.indexOf(node)].expanded=true;
-     }
-     
-    }else
-    {
-      //already expanded, so make it shrink
-      this.EdgesConnected =this.graph.edges.filter((edge) => {
-        return edge.from ===node.id ;
-      });
+        
+        this.IdsConnected=[];
+        this.EdgesConnected.forEach(element => {
+          this.IdsConnected.push(element.to);
+        });
     
+        this.NodesConnected=this.graph.nodes.filter((node)=>{
+          return this.IdsConnected.includes(node.id);
+        });
+    
+        //Push those node to current nodes
+        this.NodesConnected.forEach(node => {
+          if(this.nodes.indexOf(node)===-1)
+          this.nodes.push(node);
+        });
+    
+        //push those edges to current edges
+        this.EdgesConnected.forEach(edge => {
+          if(this.edges.indexOf(edge)===-1)
+          this.edges.push(edge);
+        });
+  
+       if( this.nodes.indexOf(node)!==-1)
+       {
+         this.nodes[this.nodes.indexOf(node)].expanded=true;
+       }
+       
+      }else
+      {
+        //already expanded, so make it shrink
+        this.EdgesConnected =this.graph.edges.filter((edge) => {
+          return edge.from ===node.id ;
+        });
       
-      this.IdsConnected=[];
-      this.EdgesConnected.forEach(element => {
-        this.IdsConnected.push(element.to);
-      });
+        
+        this.IdsConnected=[];
+        this.EdgesConnected.forEach(element => {
+          this.IdsConnected.push(element.to);
+        });
+    
+        this.NodesConnected=this.graph.nodes.filter((node)=>{
+          return this.IdsConnected.includes(node.id);
+        });
+    
+        let isCDR=false;
+        //Remove those node from current nodes
+        this.NodesConnected.forEach(node => {
+          isCDR=false;
+          if (node.group != undefined && node.group.length > 0)
+          {
+            if(node.group==="CDR")
+            isCDR=true;
+          }
+          if(this.nodes.indexOf(node)!==-1 && isCDR===false)
+          this.nodes.splice(this.nodes.indexOf(node),1)
+        });
   
-      this.NodesConnected=this.graph.nodes.filter((node)=>{
-        return this.IdsConnected.includes(node.id);
-      });
+        if( this.nodes.indexOf(node)!==-1)
+       {
+         this.nodes[this.nodes.indexOf(node)].expanded=false;
+       }
+      }
+      var treeData = {
+        nodes: this.nodes,
+        edges: this.edges
+      };
   
-      let isCDR=false;
-      //Remove those node from current nodes
-      this.NodesConnected.forEach(node => {
-        isCDR=false;
-        if (node.group != undefined && node.group.length > 0)
-        {
-          if(node.group==="CDR")
-          isCDR=true;
-        }
-        if(this.nodes.indexOf(node)!==-1 && isCDR===false)
-        this.nodes.splice(this.nodes.indexOf(node),1)
-      });
-
-      if( this.nodes.indexOf(node)!==-1)
-     {
-       this.nodes[this.nodes.indexOf(node)].expanded=false;
-     }
+      this.loadVisTree(treeData);    
+      this.setNodeEvents();
     }
+  
   
    
 
 
-    var treeData = {
-      nodes: this.nodes,
-      edges: this.edges
-    };
-
-    this.loadVisTree(treeData);    
-    this.setNodeEvents();
+   
   }
 
   getOptions(view:any) {
