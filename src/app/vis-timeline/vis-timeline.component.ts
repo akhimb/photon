@@ -19,12 +19,12 @@ export class VisTimelineComponent implements OnInit {
   ngOnInit() {
 
   this.calls=[
-      {id: 1, content: 'call 1',group:1,title:"9447774476 => 8891901265", start: '2014-04-20 10:00:00', end: '2014-04-20 10:05:00', type: 'box'},
-      {id: 2, content: 'call 2',group:1,title:"9447774476 => 9447148454", start: '2014-04-06 09:13:00', end: '2014-04-06 10:05:00', type: 'box'},
-      {id: 3, content: 'call 3',group:1,title:"9446023454 => 9447774476", start: '2014-04-18 15:23:14', end: '2014-04-15 15:23:16', type: 'box'},
-      {id: 4, content: 'call 4',group:2,title:"9043641504 => 9605102930", start: '2014-04-16 21:22:22', end: '2014-04-16 21:30:00', type: 'box'},
-      {id: 5, content: 'call 5',group:2,title:"9043641504 => 9447774476", start: '2014-04-25 23:56:10', end: '2014-04-26 00:01:00', type: 'box'},
-      {id: 6, content: 'call 6',group:2,title:"9043641504 => 9447440523", start: '2014-04-27 06:30:00', end: '2014-04-27 06:35:00', type: 'point'}
+      {id: 1, content: 'call 1',group:1,title:"9447774476 => 8891901265", start: '2014-04-20 10:00:00', end: '2014-04-20 10:05:00', type: 'box', style:"color: red; background-color: lightblue;"},
+      {id: 2, content: 'call 2',group:1,title:"9447774476 => 9447148454", start: '2014-04-06 09:13:00', end: '2014-04-06 10:05:00', type: 'box', style:"color: red; background-color: lightblue;"},
+      {id: 3, content: 'call 3',group:1,title:"9446023454 => 9447774476", start: '2014-04-18 15:23:14', end: '2014-04-15 15:23:16', type: 'box', style:"color: red; background-color: lightblue;"},
+      {id: 4, content: 'call 4',group:2,title:"9043641504 => 9605102930", start: '2014-04-16 21:22:22', end: '2014-04-16 21:30:00', type: 'box', style:"color: red; background-color: lightgreen;"},
+      {id: 5, content: 'call 5',group:2,title:"9043641504 => 9447774476", start: '2014-04-25 23:56:10', end: '2014-04-26 00:01:00', type: 'box', style:"color: red; background-color: lightgreen;"},
+      {id: 6, content: 'call 6',group:2,title:"9043641504 => 9447440523", start: '2014-04-27 06:30:00', end: '2014-04-27 06:35:00', type: 'point', style:"color: red; background-color: lightgreen;"}
     ];
 this.options={horizontalScroll:true,
 max:"2014-04-27",
@@ -35,14 +35,14 @@ this.groups=[
   {
     id: 1,
     content: '9447774476',
-    title:"Showing Calls of CDR : 9447774476"
-    // Optional: a field 'className', 'style', 'order', [properties]
+    title:"Showing Calls of CDR : 9447774476",
+    style:"color: red; background-color: lightblue;"
   },
   {
     id: 2,
     content: '9043641504',
-    title:"Showing Calls of CDR : 9043641504"
-    // Optional: a field 'className', 'style', 'order', [properties]
+    title:"Showing Calls of CDR : 9043641504",
+     style:"color: red; background-color: lightgreen;"
   }
   // more groups...
 ];
